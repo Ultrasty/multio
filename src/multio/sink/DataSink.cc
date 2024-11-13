@@ -63,14 +63,15 @@ DataSink* DataSinkFactory::build(const std::string& name, const Configuration& c
 
     auto f = factories_.find(name);
 
-    if (f != factories_.end())
-        return f->second->make(config);
-
-    Log::error() << "No DataSinkFactory for [" << name << "]" << std::endl;
     Log::error() << "DataSinkFactories are:" << std::endl;
     for (auto const& factory : factories_) {
         Log::error() << "   " << factory.first << std::endl;
     }
+
+    if (f != factories_.end())
+        return f->second->make(config);
+
+    Log::error() << "No DataSinkFactory for [" << name << "]" << std::endl;
     throw eckit::SeriousBug(std::string("No DataSinkFactory called ") + name);
 }
 
